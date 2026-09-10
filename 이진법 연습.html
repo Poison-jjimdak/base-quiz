@@ -1,0 +1,376 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>진법 변환 퀴즈</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .quiz-container {
+        width: 100%;
+        max-width: 600px;
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+        text-align: center;
+        margin-top: 0;
+        color: #333;
+    }
+
+    .score {
+        text-align: right;
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    .question {
+        background: #f5f6fa;
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .question .conversion {
+        font-size: 28px;
+        font-weight: bold;
+        color: #4c51bf;
+        margin: 15px 0;
+    }
+
+    .question p {
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 15px;
+        font-size: 22px;
+        text-align: center;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        outline: none;
+        transition: 0.2s;
+    }
+
+    input:focus {
+        border-color: #667eea;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 10px;
+        font-size: 17px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: 0.2s;
+    }
+
+    #submitBtn {
+        background: #667eea;
+        color: white;
+    }
+
+    #submitBtn:hover {
+        background: #5568d8;
+    }
+
+    #nextBtn {
+        background: #48bb78;
+        color: white;
+        display: none;
+    }
+
+    #nextBtn:hover {
+        background: #38a169;
+    }
+
+    .result {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin: 15px 0;
+        min-height: 25px;
+    }
+
+    .correct {
+        color: #38a169;
+    }
+
+    .wrong {
+        color: #e53e3e;
+    }
+
+    .history {
+        margin-top: 25px;
+        border-top: 1px solid #ddd;
+        padding-top: 15px;
+    }
+
+    .history-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .history-item {
+        padding: 7px 10px;
+        border-radius: 7px;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+
+    .history-item.correct {
+        background: #e6fffa;
+    }
+
+    .history-item.wrong {
+        background: #fff5f5;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 20px;
+        background: #edf2f7;
+        color: #555;
+        font-size: 13px;
+        margin-bottom: 5px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="quiz-container">
+
+    <h1>🔢 진법 변환 퀴즈</h1>
+
+    <div class="score">
+        점수: <strong id="score">0</strong> /
+        <strong id="total">0</strong>
+    </div>
+
+    <div class="question">
+        <span class="badge" id="questionNumber">문제 1</span>
+
+        <p>다음 수를 변환하세요.</p>
+
+        <div class="conversion" id="questionText">
+            1010₂ → 10진수
+        </div>
+
+        <input
+            type="text"
+            id="answer"
+            placeholder="정답 입력"
+            autocomplete="off"
+        >
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <button id="submitBtn">정답 확인</button>
+    <button id="nextBtn">다음 문제 →</button>
+
+    <div class="history">
+        <div class="history-title">📋 풀이 기록</div>
+        <div id="historyList"></div>
+    </div>
+
+</div>
+
+<script>
+    const BASES = {
+        2: "2진수",
+        8: "8진수",
+        16: "16진수"
+    };
+
+    let currentQuestion;
+    let score = 0;
+    let total = 0;
+
+    const questionText = document.getElementById("questionText");
+    const questionNumber = document.getElementById("questionNumber");
+    const answerInput = document.getElementById("answer");
+    const result = document.getElementById("result");
+    const scoreElement = document.getElementById("score");
+    const totalElement = document.getElementById("total");
+    const historyList = document.getElementById("historyList");
+
+    const submitBtn = document.getElementById("submitBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+
+    // 10진수 → 2/8/16진수 문제 생성
+    function generateQuestion() {
+
+        const targetBases = [2, 8, 16];
+
+        const targetBase =
+            targetBases[Math.floor(Math.random() * targetBases.length)];
+
+        // 1 ~ 255 사이의 10진수
+        const decimalNumber =
+            Math.floor(Math.random() * 255) + 1;
+
+        const correctAnswer =
+            decimalNumber.toString(targetBase).toUpperCase();
+
+        currentQuestion = {
+            decimalNumber,
+            targetBase,
+            correctAnswer
+        };
+
+        questionNumber.textContent =
+            `문제 ${total + 1}`;
+
+        questionText.textContent =
+            `${decimalNumber}₁₀ → ${BASES[targetBase]}`;
+
+        answerInput.value = "";
+        answerInput.disabled = false;
+
+        result.textContent = "";
+        result.className = "result";
+
+        submitBtn.style.display = "block";
+        nextBtn.style.display = "none";
+
+        answerInput.focus();
+    }
+
+
+    // 정답 확인
+    function checkAnswer() {
+
+        const userAnswer =
+            answerInput.value.trim().toUpperCase();
+
+        if (!userAnswer) {
+            result.textContent = "정답을 입력해주세요.";
+            result.className = "result wrong";
+            return;
+        }
+
+        total++;
+
+        if (userAnswer === currentQuestion.correctAnswer) {
+
+            score++;
+
+            result.textContent = "🎉 정답!";
+            result.className = "result correct";
+
+            addHistory(
+                true,
+                `${currentQuestion.decimalNumber}₁₀ → ` +
+                `${currentQuestion.correctAnswer}${getSubscript(currentQuestion.targetBase)}`
+            );
+
+        } else {
+
+            result.textContent =
+                `❌ 오답! 정답: ${currentQuestion.correctAnswer}`;
+
+            result.className = "result wrong";
+
+            addHistory(
+                false,
+                `${currentQuestion.decimalNumber}₁₀ → ` +
+                `입력: ${userAnswer} / 정답: ${currentQuestion.correctAnswer}`
+            );
+        }
+
+        scoreElement.textContent = score;
+        totalElement.textContent = total;
+
+        answerInput.disabled = true;
+        submitBtn.style.display = "none";
+        nextBtn.style.display = "block";
+    }
+
+
+    // 진법 아래첨자
+    function getSubscript(base) {
+        const subscript = {
+            2: "₂",
+            8: "₈",
+            16: "₁₆"
+        };
+
+        return subscript[base];
+    }
+
+
+    // 풀이 기록
+    function addHistory(isCorrect, text) {
+
+        const item = document.createElement("div");
+
+        item.className =
+            `history-item ${isCorrect ? "correct" : "wrong"}`;
+
+        item.textContent =
+            `${isCorrect ? "⭕" : "❌"} ${text}`;
+
+        historyList.prepend(item);
+
+        while (historyList.children.length > 10) {
+            historyList.removeChild(historyList.lastChild);
+        }
+    }
+
+
+    submitBtn.addEventListener("click", checkAnswer);
+
+    nextBtn.addEventListener("click", generateQuestion);
+
+
+    // Enter 키
+    answerInput.addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+
+            if (answerInput.disabled) {
+                generateQuestion();
+            } else {
+                checkAnswer();
+            }
+
+        }
+
+    });
+
+
+    // 첫 문제
+    generateQuestion();
+</script>
+
+
+</body>
+</html>
