@@ -5,162 +5,225 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>진법 변환 퀴즈</title>
 
-<style>
+<<style>
     * {
         box-sizing: border-box;
     }
 
     body {
         margin: 0;
-        font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #667eea, #764ba2);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                     "Pretendard", sans-serif;
+        background:
+            radial-gradient(circle at top left, rgba(90, 120, 255, 0.25), transparent 35%),
+            radial-gradient(circle at bottom right, rgba(170, 90, 255, 0.18), transparent 35%),
+            #1c1c1e;
         min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 20px;
+        color: #f5f5f7;
     }
 
     .quiz-container {
         width: 100%;
         max-width: 600px;
-        background: white;
-        border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        padding: 28px;
+        border-radius: 28px;
+
+        background: rgba(44, 44, 46, 0.72);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
     }
 
     h1 {
         text-align: center;
-        margin-top: 0;
-        color: #333;
+        margin: 0 0 8px;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: #ffffff;
     }
 
     .score {
-        text-align: right;
-        color: #666;
-        margin-bottom: 20px;
+        text-align: center;
+        color: #98989d;
+        font-size: 14px;
+        margin-bottom: 24px;
     }
 
     .question {
-        background: #f5f6fa;
-        border-radius: 15px;
-        padding: 25px;
+        background: rgba(58, 58, 60, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 22px;
+        padding: 28px 20px;
         text-align: center;
-        margin-bottom: 20px;
-    }
-
-    .question .conversion {
-        font-size: 28px;
-        font-weight: bold;
-        color: #4c51bf;
-        margin: 15px 0;
+        margin-bottom: 18px;
     }
 
     .question p {
-        color: #666;
-        margin-bottom: 5px;
+        color: #98989d;
+        margin: 0 0 8px;
+        font-size: 15px;
+    }
+
+    .question .conversion {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: #ffffff;
+        margin: 12px 0 4px;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #b0b0b5;
+        font-size: 13px;
+        margin-bottom: 8px;
     }
 
     input {
         width: 100%;
-        padding: 15px;
+        padding: 16px;
         font-size: 22px;
+        font-family: inherit;
         text-align: center;
-        border: 2px solid #ddd;
-        border-radius: 10px;
+
+        color: #ffffff;
+        background: rgba(28, 28, 30, 0.75);
+
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 15px;
         outline: none;
-        transition: 0.2s;
+
+        transition: 0.2s ease;
+    }
+
+    input::placeholder {
+        color: #636366;
     }
 
     input:focus {
-        border-color: #667eea;
+        border-color: rgba(120, 140, 255, 0.8);
+        background: rgba(28, 28, 30, 0.9);
+        box-shadow: 0 0 0 4px rgba(100, 120, 255, 0.12);
     }
 
     button {
         width: 100%;
-        padding: 14px;
+        padding: 15px;
         border: none;
-        border-radius: 10px;
+        border-radius: 15px;
+
+        font-family: inherit;
         font-size: 17px;
-        font-weight: bold;
+        font-weight: 600;
+
         cursor: pointer;
         margin-top: 10px;
-        transition: 0.2s;
+
+        transition:
+            transform 0.15s ease,
+            opacity 0.15s ease,
+            background 0.2s ease;
+    }
+
+    button:active {
+        transform: scale(0.98);
     }
 
     #submitBtn {
-        background: #667eea;
-        color: white;
+        background: #ffffff;
+        color: #1c1c1e;
     }
 
     #submitBtn:hover {
-        background: #5568d8;
+        background: #e5e5ea;
     }
 
     #nextBtn {
-        background: #48bb78;
+        background: rgba(72, 187, 120, 0.9);
         color: white;
         display: none;
     }
 
     #nextBtn:hover {
-        background: #38a169;
+        background: rgba(72, 187, 120, 1);
     }
 
     .result {
         text-align: center;
-        font-size: 18px;
-        font-weight: bold;
-        margin: 15px 0;
-        min-height: 25px;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 16px 0;
+        min-height: 24px;
     }
 
     .correct {
-        color: #38a169;
+        color: #30d158;
     }
 
     .wrong {
-        color: #e53e3e;
+        color: #ff453a;
     }
 
     .history {
-        margin-top: 25px;
-        border-top: 1px solid #ddd;
-        padding-top: 15px;
+        margin-top: 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 18px;
     }
 
     .history-title {
-        font-weight: bold;
+        font-size: 15px;
+        font-weight: 600;
+        color: #f5f5f7;
         margin-bottom: 10px;
     }
 
     .history-item {
-        padding: 7px 10px;
-        border-radius: 7px;
-        margin-bottom: 5px;
+        padding: 9px 12px;
+        border-radius: 11px;
+        margin-bottom: 6px;
         font-size: 14px;
+        background: rgba(255, 255, 255, 0.05);
     }
 
     .history-item.correct {
-        background: #e6fffa;
+        background: rgba(48, 209, 88, 0.10);
     }
 
     .history-item.wrong {
-        background: #fff5f5;
+        background: rgba(255, 69, 58, 0.10);
     }
 
-    .badge {
-        display: inline-block;
-        padding: 5px 9px;
-        border-radius: 20px;
-        background: #edf2f7;
-        color: #555;
-        font-size: 13px;
-        margin-bottom: 5px;
+    @media (max-width: 500px) {
+        body {
+            padding: 14px;
+        }
+
+        .quiz-container {
+            padding: 22px;
+            border-radius: 24px;
+        }
+
+        h1 {
+            font-size: 25px;
+        }
+
+        .question .conversion {
+            font-size: 27px;
+        }
     }
-</style>
-</head>
+</style></head>
 
 <body>
 
