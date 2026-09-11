@@ -241,46 +241,34 @@
     -webkit-font-smoothing: antialiased;
     font-feature-settings: 'liga';
 }
-</style></head>
-
-<body>
-
-<div class="quiz-container">
-
-    <h1><span class="material-symbols-rounded">calculate</span> 진법 변환 퀴즈</h1>
-
-    <div class="score">
-        점수: <strong id="score">0</strong> /
-        <strong id="total">0</strong>
-    </div>
-
-    <div class="question">
-        <span class="badge" id="questionNumber">문제 1</span>
-
-        <p>다음 수를 변환하세요.</p>
-
-        <div class="conversion" id="questionText">
-            1010₂ → 10진수
-        </div>
-
-        <input
+</style>
+</head>
+    <body>
+        <div class="quiz-container">
+            <h1><span class="material-symbols-rounded">calculate</span> 진법 변환 퀴즈</h1>
+                <div class="score">
+                    점수: <strong id="score">0</strong> /
+                    <strong id="total">0</strong>
+            </div>
+            <div class="question">
+                <span class="badge" id="questionNumber">문제 1</span>
+                <p>다음 수를 변환하세요.</p>
+                <div class="conversion" id="questionText">
+                    1010₂ → 10진수
+            </div>
+            <input
             type="text"
             id="answer"
             placeholder="정답 입력"
-            autocomplete="off"
-        >
+            autocomplete="off">
     </div>
-
     <div class="result" id="result"></div>
-
-    <button id="submitBtn">정답 확인</button>
-    <button id="nextBtn">다음 문제 →</button>
-
-    <div class="history">
-        <div class="history-title"><span class="material-symbols-rounded">history</span> 풀이 기록</div>
+        <button id="submitBtn">정답 확인</button>
+        <button id="nextBtn">다음 문제 →</button>
+        <div class="history">
+            <div class="history-title"><span class="material-symbols-rounded">history</span> 풀이 기록</div>
         <div id="historyList"></div>
     </div>
-
 </div>
 
 <script>
