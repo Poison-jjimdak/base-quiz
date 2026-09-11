@@ -1,0 +1,149 @@
+
+/* =========================================================
+   MATERIAL THEME
+   ========================================================= */
+
+:root {
+
+    /* Primary */
+    --md-sys-color-primary: #0061A4;
+    --md-sys-color-on-primary: #FFFFFF;
+    --md-sys-color-primary-container: #D1E4FF;
+    --md-sys-color-on-primary-container: #001D36;
+
+    /* Secondary */
+    --md-sys-color-secondary: #535F70;
+    --md-sys-color-on-secondary: #FFFFFF;
+    --md-sys-color-secondary-container: #D7E3F7;
+    --md-sys-color-on-secondary-container: #101C2B;
+
+    /* Tertiary */
+    --md-sys-color-tertiary: #6B5778;
+    --md-sys-color-on-tertiary: #FFFFFF;
+    --md-sys-color-tertiary-container: #F2DAFF;
+    --md-sys-color-on-tertiary-container: #251431;
+
+    /* Background */
+    --md-sys-color-background: #F9F9FF;
+    --md-sys-color-on-background: #191C20;
+
+    /* Surface */
+    --md-sys-color-surface: #F9F9FF;
+    --md-sys-color-on-surface: #191C20;
+
+    --md-sys-color-surface-variant: #DEE3EB;
+    --md-sys-color-on-surface-variant: #42474E;
+
+    /* Outline */
+    --md-sys-color-outline: #72777F;
+    --md-sys-color-outline-variant: #C2C7CF;
+
+    /* Error */
+    --md-sys-color-error: #BA1A1A;
+    --md-sys-color-on-error: #FFFFFF;
+    --md-sys-color-error-container: #FFDAD6;
+    --md-sys-color-on-error-container: #410002;
+
+    /* Other */
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-scrim: #000000;
+
+
+    /* =====================================================
+       COMPONENT VARIABLES
+       ===================================================== */
+
+    --shadow-card:
+        0 1px 3px rgba(0, 0, 0, 0.12),
+        0 4px 12px rgba(0, 0, 0, 0.08);
+
+    --shadow-sheet:
+        0 8px 24px rgba(0, 0, 0, 0.16);
+
+    --shadow-fab:
+        0 4px 12px rgba(0, 0, 0, 0.16);
+
+    --overlay:
+        rgba(0, 0, 0, 0.45);
+
+
+    /* Radius */
+
+    --radius-card: 28px;
+    --radius-item: 20px;
+    --radius-button: 100px;
+}
+
+
+/* =========================================================
+   DARK
+   ========================================================= */
+
+html[data-theme="dark"] {
+
+    --md-sys-color-primary: #9ECAFF;
+    --md-sys-color-on-primary: #003258;
+
+    --md-sys-color-primary-container: #00497D;
+    --md-sys-color-on-primary-container: #D1E4FF;
+
+    --md-sys-color-secondary: #BBC7DB;
+    --md-sys-color-on-secondary: #253140;
+
+    --md-sys-color-secondary-container: #3B4858;
+    --md-sys-color-on-secondary-container: #D7E3F7;
+
+    --md-sys-color-tertiary: #D6BEE4;
+    --md-sys-color-on-tertiary: #3A2948;
+
+    --md-sys-color-tertiary-container: #513F5F;
+    --md-sys-color-on-tertiary-container: #F2DAFF;
+
+    --md-sys-color-background: #111418;
+    --md-sys-color-on-background: #E1E2E6;
+
+    --md-sys-color-surface: #111418;
+    --md-sys-color-on-surface: #E1E2E6;
+
+    --md-sys-color-surface-variant: #42474E;
+    --md-sys-color-on-surface-variant: #C2C7CF;
+
+    --md-sys-color-outline: #8C9199;
+    --md-sys-color-outline-variant: #42474E;
+
+    --md-sys-color-error: #FFB4AB;
+    --md-sys-color-on-error: #690005;
+
+    --md-sys-color-error-container: #93000A;
+    --md-sys-color-on-error-container: #FFDAD6;
+}
+
+
+/* =========================================================
+   DEVICE SETTING → DARK
+   ========================================================= */
+
+@media (prefers-color-scheme: dark) {
+
+    html[data-theme="system"] {
+
+        --md-sys-color-primary: #9ECAFF;
+        --md-sys-color-on-primary: #003258;
+
+        --md-sys-color-primary-container: #00497D;
+        --md-sys-color-on-primary-container: #D1E4FF;
+
+        --md-sys-color-background: #111418;
+        --md-sys-color-on-background: #E1E2E6;
+
+        --md-sys-color-surface: #111418;
+        --md-sys-color-on-surface: #E1E2E6;
+
+        --md-sys-color-surface-variant: #42474E;
+        --md-sys-color-on-surface-variant: #C2C7CF;
+
+        --md-sys-color-outline: #8C9199;
+        --md-sys-color-outline-variant: #42474E;
+    }
+}
+

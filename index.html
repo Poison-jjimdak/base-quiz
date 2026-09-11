@@ -1,445 +1,734 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>진법 변환 퀴즈</title>
-<link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0"
-    rel="stylesheet"
-/>
+    <meta charset="UTF-8">
 
-<style>
-    * {
-        box-sizing: border-box;
-    }
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
 
-    body {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-                     "Pretendard", sans-serif;
-        background color:#f2f2f2;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-        color: #f5f5f7;
-    }
+    <title>진법 변환 퀴즈</title>
 
-    .quiz-container {
-        width: 100%;
-        max-width: 600px;
-        padding: 28px;
-        border-radius: 28px;
+    <!-- Material Symbols + Roboto -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
 
-        background: rgba(44, 44, 46, 0.72);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow:
-            0 20px 60px rgba(0, 0, 0, 0.35),
-            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
-    }
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet"
+    >
 
-    h1 {
-        text-align: center;
-        margin: 0 0 8px;
-        font-size: 28px;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-        color: #ffffff;
-    }
+    <!-- 색상 / 디자인 -->
+    <link rel="stylesheet" href="theme.css">
 
-    .score {
-        text-align: center;
-        color: #98989d;
-        font-size: 14px;
-        margin-bottom: 24px;
-    }
+    <!-- 레이아웃 / 컴포넌트 -->
+    <link rel="stylesheet" href="style.css">
 
-    .question {
-        background: rgba(58, 58, 60, 0.7);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 22px;
-        padding: 28px 20px;
-        text-align: center;
-        margin-bottom: 18px;
-    }
-
-    .question p {
-        color: #98989d;
-        margin: 0 0 8px;
-        font-size: 15px;
-    }
-
-    .question .conversion {
-        font-size: 30px;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-        color: #ffffff;
-        margin: 12px 0 4px;
-    }
-
-    .badge {
-        display: inline-block;
-        padding: 5px 10px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.08);
-        color: #b0b0b5;
-        font-size: 13px;
-        margin-bottom: 8px;
-    }
-
-    input {
-        width: 100%;
-        padding: 16px;
-        font-size: 22px;
-        font-family: inherit;
-        text-align: center;
-
-        color: #ffffff;
-        background: rgba(28, 28, 30, 0.75);
-
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 15px;
-        outline: none;
-
-        transition: 0.2s ease;
-    }
-
-    input::placeholder {
-        color: #636366;
-    }
-
-    input:focus {
-        border-color: rgba(120, 140, 255, 0.8);
-        background: rgba(28, 28, 30, 0.9);
-        box-shadow: 0 0 0 4px rgba(100, 120, 255, 0.12);
-    }
-
-    button {
-        width: 100%;
-        padding: 15px;
-        border: none;
-        border-radius: 15px;
-
-        font-family: inherit;
-        font-size: 17px;
-        font-weight: 600;
-
-        cursor: pointer;
-        margin-top: 10px;
-
-        transition:
-            transform 0.15s ease,
-            opacity 0.15s ease,
-            background 0.2s ease;
-    }
-
-    button:active {
-        transform: scale(0.98);
-    }
-
-    #submitBtn {
-        background: #ffffff;
-        color: #1c1c1e;
-    }
-
-    #submitBtn:hover {
-        background: #e5e5ea;
-    }
-
-    #nextBtn {
-        background: rgba(72, 187, 120, 0.9);
-        color: white;
+    <style>
+    #settingsContainer {
         display: none;
     }
 
-    #nextBtn:hover {
-        background: rgba(72, 187, 120, 1);
+    #settingsContainer.settings-open {
+        display: block;
     }
-
-    .result {
-        text-align: center;
-        font-size: 16px;
-        font-weight: 600;
-        margin: 16px 0;
-        min-height: 24px;
-    }
-
-    .correct {
-        color: #30d158;
-    }
-
-    .wrong {
-        color: #ff453a;
-    }
-
-    .history {
-        margin-top: 24px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding-top: 18px;
-    }
-
-    .history-title {
-        font-size: 15px;
-        font-weight: 600;
-        color: #f5f5f7;
-        margin-bottom: 10px;
-    }
-
-    .history-item {
-        padding: 9px 12px;
-        border-radius: 11px;
-        margin-bottom: 6px;
-        font-size: 14px;
-        background: rgba(255, 255, 255, 0.05);
-    }
-
-    .history-item.correct {
-        background: rgba(48, 209, 88, 0.10);
-    }
-
-    .history-item.wrong {
-        background: rgba(255, 69, 58, 0.10);
-    }
-
-    @media (max-width: 500px) {
-        body {
-            padding: 14px;
-        }
-
-        .quiz-container {
-            padding: 22px;
-            border-radius: 24px;
-        }
-
-        h1 {
-            font-size: 25px;
-        }
-
-        .question .conversion {
-            font-size: 27px;
-        }
-    }
-
-   .material-symbols-rounded {
-    font-family: 'Material Symbols Rounded';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 22px;
-    line-height: 1;
-    letter-spacing: normal;
-    text-transform: none;
-    display: inline-block;
-    white-space: nowrap;
-    word-wrap: normal;
-    direction: ltr;
-    -webkit-font-feature-settings: 'liga';
-    -webkit-font-smoothing: antialiased;
-    font-feature-settings: 'liga';
-}
 </style>
 </head>
-    <body>
-        <div class="quiz-container">
-            <h1><span class="material-symbols-rounded">calculate</span> 진법 변환 퀴즈</h1>
-                <div class="score">
-                    점수: <strong id="score">0</strong> /
-                    <strong id="total">0</strong>
+
+
+<body>
+
+    <!-- =====================================================
+         QUIZ
+         ===================================================== -->
+
+    <main class="app">
+
+        <section class="quiz-card">
+
+            <!-- 상단 -->
+            <header class="header">
+
+                <div class="title">
+
+                    <div class="title-icon">
+                        <span class="material-symbols-rounded">
+                            calculate
+                        </span>
+                    </div>
+
+                    <span>진법 변환 퀴즈</span>
+
+                </div>
+
+
+                <div
+                    class="score"
+                    id="score"
+                >
+                    0 / 0
+                </div>
+
+            </header>
+
+
+            <!-- 문제 -->
+            <div
+                class="question"
+                id="question"
+            >
+                101101<sub>2</sub> → ?<sub>16</sub>
             </div>
-            <div class="question">
-                <span class="badge" id="questionNumber">문제 1</span>
-                <p>다음 수를 변환하세요.</p>
-                <div class="conversion" id="questionText">
-                    1010₂ → 10진수
+
+
+            <!-- 답 입력 -->
+            <div class="answer-area">
+
+                <input
+                    id="answerInput"
+                    class="answer-input"
+                    type="text"
+                    inputmode="text"
+                    autocomplete="off"
+                    autocapitalize="characters"
+                    spellcheck="false"
+                    placeholder="정답 입력"
+                    aria-label="답 입력"
+                >
+
+
+                <button
+                    id="submitButton"
+                    class="submit-button"
+                    type="button"
+                >
+                    제출
+                </button>
+
             </div>
-            <input
-            type="text"
-            id="answer"
-            placeholder="정답 입력"
-            autocomplete="off">
+
+
+            <!-- 결과 -->
+            <div
+                id="result"
+                class="result"
+                aria-live="polite"
+            ></div>
+
+
+            <!-- 최근 기록 -->
+            <section class="history">
+
+                <div class="history-title">
+                    최근 기록
+                </div>
+
+                <div
+                    id="historyList"
+                    class="history-list"
+                ></div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         SETTINGS FAB
+         오른쪽 아래 설정 버튼
+         ===================================================== -->
+
+    <button
+        id="settingsFab"
+        class="settings-fab"
+        type="button"
+        aria-label="설정"
+        aria-haspopup="dialog"
+    >
+
+        <span class="material-symbols-rounded">
+            settings
+        </span>
+
+    </button>
+
+
+
+    <!-- =====================================================
+         SETTINGS BOTTOM SHEET
+         ===================================================== -->
+
+    <div id="settingsContainer">
+
+
+        <!-- 배경 눌러도 닫힘 -->
+        <div
+            id="settingsBackdrop"
+            class="settings-backdrop"
+        ></div>
+
+
+        <section
+            id="settingsSheet"
+            class="settings-sheet"
+            role="dialog"
+            aria-modal="true"
+            aria-label="설정"
+        >
+
+            <!-- 위에 있는 작은 손잡이 -->
+            <div class="sheet-handle"></div>
+
+
+            <!-- =================================================
+                 SETTINGS MAIN
+                 ================================================= -->
+
+            <div
+                id="settingsMain"
+                class="settings-main"
+            >
+
+
+                <!-- 진법 -->
+
+                <div class="settings-group">
+
+                    <div class="settings-group-title">
+                        진법
+                    </div>
+
+
+                    <!-- 입력 진법 -->
+
+                    <button
+                        id="inputBaseSetting"
+                        class="settings-item"
+                        type="button"
+                    >
+
+                        <div class="settings-item-icon">
+
+                            <span class="material-symbols-rounded">
+                                input
+                            </span>
+
+                        </div>
+
+
+                        <div class="settings-item-content">
+
+                            <div class="settings-item-title">
+                                입력 진법
+                            </div>
+
+                            <div
+                                id="inputBaseSummary"
+                                class="settings-item-summary"
+                            >
+                                2진수
+                            </div>
+
+                        </div>
+
+
+                        <span class="material-symbols-rounded settings-chevron">
+                            chevron_right
+                        </span>
+
+                    </button>
+
+
+                    <!-- 출력 진법 -->
+
+                    <button
+                        id="outputBaseSetting"
+                        class="settings-item"
+                        type="button"
+                    >
+
+                        <div class="settings-item-icon">
+
+                            <span class="material-symbols-rounded">
+                                output
+                            </span>
+
+                        </div>
+
+
+                        <div class="settings-item-content">
+
+                            <div class="settings-item-title">
+                                출력 진법
+                            </div>
+
+                            <div
+                                id="outputBaseSummary"
+                                class="settings-item-summary"
+                            >
+                                10진수
+                            </div>
+
+                        </div>
+
+
+                        <span class="material-symbols-rounded settings-chevron">
+                            chevron_right
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- 화면 -->
+
+                <div class="settings-group">
+
+                    <div class="settings-group-title">
+                        화면
+                    </div>
+
+
+                    <!-- 테마 -->
+
+                    <button
+                        id="themeSetting"
+                        class="settings-item"
+                        type="button"
+                    >
+
+                        <div class="settings-item-icon">
+
+                            <span class="material-symbols-rounded">
+                                dark_mode
+                            </span>
+
+                        </div>
+
+
+                        <div class="settings-item-content">
+
+                            <div class="settings-item-title">
+                                테마
+                            </div>
+
+                            <div
+                                id="themeSummary"
+                                class="settings-item-summary"
+                            >
+                                라이트
+                            </div>
+
+                        </div>
+
+
+                        <span class="material-symbols-rounded settings-chevron">
+                            chevron_right
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- 기타 -->
+
+                <div class="settings-group">
+
+                    <div class="settings-group-title">
+                        기타
+                    </div>
+
+
+                    <!-- GitHub -->
+
+                    <button
+                        id="githubButton"
+                        class="settings-item"
+                        type="button"
+                    >
+
+                        <div class="settings-item-icon">
+
+                            <span class="material-symbols-rounded">
+                                code
+                            </span>
+
+                        </div>
+
+
+                        <div class="settings-item-content">
+
+                            <div class="settings-item-title">
+                                GitHub
+                            </div>
+
+                            <div class="settings-item-summary">
+                                프로젝트 소스 코드
+                            </div>
+
+                        </div>
+
+
+                        <span class="material-symbols-rounded">
+                            open_in_new
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 INPUT BASE SCREEN
+                 ================================================= -->
+
+            <div
+                id="inputBaseScreen"
+                class="settings-subscreen"
+            >
+
+                <div class="subscreen-header">
+
+                    <button
+                        id="inputBaseBack"
+                        class="icon-button"
+                        type="button"
+                        aria-label="뒤로"
+                    >
+
+                        <span class="material-symbols-rounded">
+                            arrow_back
+                        </span>
+
+                    </button>
+
+
+                    <div class="subscreen-header-text">
+
+                        <h2>입력 진법</h2>
+
+                        <p>
+                            문제에 표시되는 숫자의 진법
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- 여기서 여러 개 선택 가능 -->
+
+                <div
+                    id="inputBaseChips"
+                    class="chip-group"
+                >
+
+                    <button
+                        class="filter-chip"
+                        type="button"
+                        data-base="2"
+                    >
+
+                        <span class="check material-symbols-rounded">
+                            check
+                        </span>
+
+                        2진수
+
+                    </button>
+
+
+                    <button
+                        class="filter-chip"
+                        type="button"
+                        data-base="8"
+                    >
+
+                        <span class="check material-symbols-rounded">
+                            check
+                        </span>
+
+                        8진수
+
+                    </button>
+
+
+                    <button
+                        class="filter-chip"
+                        type="button"
+                        data-base="10"
+                    >
+
+                        <span class="check material-symbols-rounded">
+                            check
+                        </span>
+
+                        10진수
+
+                    </button>
+
+
+                    <button
+                        class="filter-chip"
+                        type="button"
+                        data-base="16"
+                    >
+
+                        <span class="check material-symbols-rounded">
+                            check
+                        </span>
+
+                        16진수
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 OUTPUT BASE SCREEN
+                 ================================================= -->
+
+            <div
+                id="outputBaseScreen"
+                class="settings-subscreen"
+            >
+
+                <div class="subscreen-header">
+
+                    <button
+                        id="outputBaseBack"
+                        class="icon-button"
+                        type="button"
+                        aria-label="뒤로"
+                    >
+
+                        <span class="material-symbols-rounded">
+                            arrow_back
+                        </span>
+
+                    </button>
+
+
+                    <div class="subscreen-header-text">
+
+                        <h2>출력 진법</h2>
+
+                        <p>
+                            정답을 입력할 진법
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="outputBaseChips"
+                    class="chip-group"
+                >
+
+                    <button
+                        class="filter-chip"
+                        type="button"
+                        data-base="2"
+                    >
+
+                        <span class="check material-symbols-rounded">
+                            check
+                        </span>
+
+                        2진수
+
+                    </button>
+
+
+                    <button
+                        class="filter-chip"
+                        type="button"
+                        data-base="8"
+                    >
+
+                        <span class="check material-symbols-rounded">
+                            check
+                        </span>
+
+                        8진수
+
+                    </button>
+
+
+                    <button
+                        class="filter-chip"
+                        type="button"
+                        data-base="10"
+                    >
+
+                        <span class="check material-symbols-rounded">
+                            check
+                        </span>
+
+                        10진수
+
+                    </button>
+
+
+                    <button
+                        class="filter-chip"
+                        type="button"
+                        data-base="16"
+                    >
+
+                        <span class="check material-symbols-rounded">
+                            check
+                        </span>
+
+                        16진수
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 THEME SCREEN
+                 ================================================= -->
+
+            <div
+                id="themeScreen"
+                class="settings-subscreen"
+            >
+
+                <div class="subscreen-header">
+
+                    <button
+                        id="themeBack"
+                        class="icon-button"
+                        type="button"
+                        aria-label="뒤로"
+                    >
+
+                        <span class="material-symbols-rounded">
+                            arrow_back
+                        </span>
+
+                    </button>
+
+
+                    <div class="subscreen-header-text">
+
+                        <h2>테마</h2>
+
+                        <p>
+                            앱의 화면 테마를 선택해주세요
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- 테마 선택 -->
+
+                <div class="choice-list">
+
+
+                    <!-- 라이트 -->
+
+                    <button
+                        class="choice-item"
+                        type="button"
+                        data-theme-choice="light"
+                    >
+
+                        <span>
+                            라이트
+                        </span>
+
+                        <span class="check material-symbols-rounded">
+                            check
+                        </span>
+
+                    </button>
+
+
+                    <!-- 다크 -->
+
+                    <button
+                        class="choice-item"
+                        type="button"
+                        data-theme-choice="dark"
+                    >
+
+                        <span>
+                            다크
+                        </span>
+
+                        <span class="check material-symbols-rounded">
+                            check
+                        </span>
+
+                    </button>
+
+
+                    <!-- 기기 설정 -->
+
+                    <button
+                        class="choice-item"
+                        type="button"
+                        data-theme-choice="system"
+                    >
+
+                        <span>
+                            기기 설정
+                        </span>
+
+                        <span class="check material-symbols-rounded">
+                            check
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
     </div>
-    <div class="result" id="result"></div>
-        <button id="submitBtn">정답 확인</button>
-        <button id="nextBtn">다음 문제 →</button>
-        <div class="history">
-            <div class="history-title"><span class="material-symbols-rounded">history</span> 풀이 기록</div>
-        <div id="historyList"></div>
-    </div>
-</div>
-
-<script>
-    const BASES = {
-        2: "2진수",
-        8: "8진수",
-        16: "16진수"
-    };
-
-    let currentQuestion;
-    let score = 0;
-    let total = 0;
-
-    const questionText = document.getElementById("questionText");
-    const questionNumber = document.getElementById("questionNumber");
-    const answerInput = document.getElementById("answer");
-    const result = document.getElementById("result");
-    const scoreElement = document.getElementById("score");
-    const totalElement = document.getElementById("total");
-    const historyList = document.getElementById("historyList");
-
-    const submitBtn = document.getElementById("submitBtn");
-    const nextBtn = document.getElementById("nextBtn");
 
 
-    // 10진수 → 2/8/16진수 문제 생성
-    function generateQuestion() {
 
-        const targetBases = [2, 8, 16];
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
 
-        const targetBase =
-            targetBases[Math.floor(Math.random() * targetBases.length)];
-
-        // 1 ~ 255 사이의 10진수
-        const decimalNumber =
-            Math.floor(Math.random() * 255) + 1;
-
-        const correctAnswer =
-            decimalNumber.toString(targetBase).toUpperCase();
-
-        currentQuestion = {
-            decimalNumber,
-            targetBase,
-            correctAnswer
-        };
-
-        questionNumber.textContent =
-            `문제 ${total + 1}`;
-
-        questionText.textContent =
-            `${decimalNumber}₁₀ → ${BASES[targetBase]}`;
-
-        answerInput.value = "";
-        answerInput.disabled = false;
-
-        result.textContent = "";
-        result.className = "result";
-
-        submitBtn.style.display = "block";
-        nextBtn.style.display = "none";
-
-        answerInput.focus();
-    }
-
-
-    // 정답 확인
-    function checkAnswer() {
-
-        const userAnswer =
-            answerInput.value.trim().toUpperCase();
-
-        if (!userAnswer) {
-            result.textContent = "정답을 입력해주세요.";
-            result.className = "result wrong";
-            return;
-        }
-
-        total++;
-
-        if (userAnswer === currentQuestion.correctAnswer) {
-
-            score++;
-
-            result.textContent = "🎉 정답!";
-            result.className = "result correct";
-
-            addHistory(
-                true,
-                `${currentQuestion.decimalNumber}₁₀ → ` +
-                `${currentQuestion.correctAnswer}${getSubscript(currentQuestion.targetBase)}`
-            );
-
-        } else {
-
-            result.textContent =
-                `❌ 오답! 정답: ${currentQuestion.correctAnswer}`;
-
-            result.className = "result wrong";
-
-            addHistory(
-                false,
-                `${currentQuestion.decimalNumber}₁₀ → ` +
-                `입력: ${userAnswer} / 정답: ${currentQuestion.correctAnswer}`
-            );
-        }
-
-        scoreElement.textContent = score;
-        totalElement.textContent = total;
-
-        answerInput.disabled = true;
-        submitBtn.style.display = "none";
-        nextBtn.style.display = "block";
-    }
-
-
-    // 진법 아래첨자
-    function getSubscript(base) {
-        const subscript = {
-            2: "₂",
-            8: "₈",
-            16: "₁₆"
-        };
-
-        return subscript[base];
-    }
-
-
-    // 풀이 기록
-    function addHistory(isCorrect, text) {
-
-        const item = document.createElement("div");
-
-        item.className =
-            `history-item ${isCorrect ? "correct" : "wrong"}`;
-
-        item.textContent =
-            `${isCorrect ? "⭕" : "❌"} ${text}`;
-
-        historyList.prepend(item);
-
-        while (historyList.children.length > 10) {
-            historyList.removeChild(historyList.lastChild);
-        }
-    }
-
-
-    submitBtn.addEventListener("click", checkAnswer);
-
-    nextBtn.addEventListener("click", generateQuestion);
-
-
-    // Enter 키
-    answerInput.addEventListener("keydown", function(event) {
-
-        if (event.key === "Enter") {
-
-            if (answerInput.disabled) {
-                generateQuestion();
-            } else {
-                checkAnswer();
-            }
-
-        }
-
-    });
-
-
-    // 첫 문제
-    generateQuestion();
-</script>
-
+    <script src="script.js"></script>
 
 </body>
 </html>
