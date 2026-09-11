@@ -6,5 +6,6 @@ GitHub Pages를 사용해 웹에서 실행할 수 있도록 했습니다.
 <sub>생성형 AI의 도움을 받아 제작했습니다.</sub>
 
 ## 사용 자료
+Material Design 3 [#](https://m3.material.io/) <br>
 Google Material Symbols [#](https://fonts.google.com/icons) <br>
-Pretendard [#](https://github.com/orioncactus/pretendard)
+
