@@ -8,7 +8,7 @@ document.fonts.ready.then(() => {
    ========================================================= */
 
 const GITHUB_URL =
-    "github.com/Poison-jjimdak/base-quiz";
+    "https://github.com/Poison-jjimdak/base-quiz";
 
 
 /* =========================================================
